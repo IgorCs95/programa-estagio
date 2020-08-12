@@ -1,7 +1,7 @@
 const connection = require('../database/connection');
 
 module.exports = {
-    async index(request, response) {
+    async getAll(request, response) {
 
         const parada = await connection('parada')
             .select([
@@ -12,12 +12,11 @@ module.exports = {
     },
 
     async create(request, response,next) {
-        const { nome, latitude, longitude } = request.body;
+        const { name, latitude, longitude } = request.body;
 
-        console.log(nome,latitude,longitude)
         try {
             await connection('parada').insert({
-                nome,
+                name,
                 latitude,
                 longitude,
             })
