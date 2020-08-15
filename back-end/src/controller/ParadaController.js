@@ -10,8 +10,7 @@ module.exports = {
 
         return response.json(parada);
     },
-
-    async create(request, response,next) {
+    async create(request, response, next) {
         const { name, latitude, longitude } = request.body;
 
         try {
@@ -26,26 +25,36 @@ module.exports = {
         }
 
 
-    },
-    // async delete(request, response) {
-    //     const { id } = request.params;
+    }, 
+    async update(request, response, next) {
+        try {
+            const { name, latitude, longitude } = request.body;
+            const { id } = request.params;
 
-    //     const ong_id = request.headers.authorization;
+            await connection('parada').update({
+                name,
+                latitude,
+                longitude,
+            }).where({ id })
 
-    //     const incident = await connection('incidents')
-    //         .where('id', id)
-    //         .select('ong_id')
-    //         .first();
+            return response.status(201).send()
 
-    //     if (incident.ong_id != ong_id) {
-    //         return response.status(401).json({ error: 'Operation not permitted.' });
-    //     }
+        } catch (error) {
+            next(error)
+        }
+    }, 
+    async delete(request, response, next) {
+        try {
+            const { id } = request.params
 
-    //     await connection('Incidents').where('id', id).delete();
-
-    //     return response.status(204).send();
-
-    // }
+            await connection('parada')
+                .where({ id })
+                .del()
 
 
+            return response.send()
+        } catch (error) {
+            next(error)
+        }
+    }
 }

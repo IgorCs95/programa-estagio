@@ -6,7 +6,7 @@ exports.up = function (knex) {
     
     table.integer('linha_id').notNullable()
 
-    table.foreign('linha_id').references('id').inTable('linha');
+    table.foreign('linha_id').references('id').inTable('linha').onUpdate('CASCADE').onDelete('CASCADE');
   });
 };
 
